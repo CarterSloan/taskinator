@@ -266,9 +266,51 @@ var saveTasks = function() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-pageContentEl.addEventListener("click", taskButtonHandler);
+var loadTasks = function() {
+    var savedTasks = localStorage.getItem("tasks");
+    // if there are no tasks, set tasks to an empty array and return out of the function
+    if (!savedTasks) {
+      return false;
+    }
+    console.log("Saved tasks found!");
+    // else, load up saved tasks
+  
+    // parse into array of objects
+    savedTasks = JSON.parse(savedTasks);
+  
+    // loop through savedTasks array
+    for (var i = 0; i < savedTasks.length; i++) {
+      // pass each task object into the `createTaskEl()` function
+      createTaskEl(savedTasks[i]);
+    }
+  };
+
+    
+
+    var listItemEl = function () {
+        document.createElement("li") 
+        listItemEl.classList.add("task-item")
+        listItemEl.setAttribute("data-task-id", taskIdCounter);
+        listItemEl.setAttribute("draggable", "true");
+    };
+
+    
+    var taskInfoEl = function () {
+        document.createElement("div");
+        taskInfoEl.classList.add("task-info");
+        taskInfoEl.innerHTML = "<h3 class='task-name'>" + tasks[i].name + "</h3><span class = 'task-type'>" + tasks[i].type + "</span>";
+        }; 
+    
+
+
+   
+
+
+formEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
 pageContentEl.addEventListener("dragstart", dragTaskHandler);
 pageContentEl.addEventListener("dragover", dropZoneDragHandler);
 pageContentEl.addEventListener("drop", dropTaskHandler);
 pageContentEl.addEventListener("dragleave", dragLeaveHandler);
+
+loadTasks();
